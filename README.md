@@ -1,5 +1,6 @@
 ## Carbonfootprint
-#RESTFul API to calculate carbon emission.
+RESTFul API to calculate carbon emission.
+
 Carbon Footprint is currently a browser extension (for Chrome, Firefox and Safari) that calculates CO2 emissions incurred when driving (or using public transportation) on routes suggested by map services such as Google Maps, Here and Open Street Map. To do that, we implemented functions (in Javascript) that convert distance, time, fuel type and other inputs into CO2. These functions are potentially useful for other projects as well, but they are currently not accesible outside Carbon Footprint. We would like to transform these useful functions into two APIs:
 
 
