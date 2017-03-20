@@ -36,6 +36,11 @@
 </head>
 
 <body>
+<style> /* set the CSS */
+
+.bar { fill: steelblue; }
+
+</style>
 
     <div id="wrapper">
 
@@ -67,8 +72,8 @@
                             <!-- /input-group -->
                         </li>
                         <% for (var i=0;i<data.json.length;i++) { %>
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i><%= data.json[i].Country %></a>
+                        <li onclick = "load_country_data(<%=i%>)">
+                            <a href="#"><i class="fa fa-dashboard fa-fw"></i><%= data.json[i].Country %></a>
                         </li>
                         <% } %>
 
@@ -95,29 +100,13 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="morris-area-chart"></div>
+                            <div id="bar">
+
+                            </div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -144,7 +133,60 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
+    <script src="//d3js.org/d3.v4.min.js"></script>
     <script>
+          function load_country_data(countryid){
+            $.get({
+              url : '/percap/get_country/'+countryid,
+              method : 'get',
+              success : function(data){
+                var margin = {top: 20, right: 20, bottom: 30, left: 40},
+                    width = 960 - margin.left - margin.right,
+                    height = 500 - margin.top - margin.bottom;
+
+                // set the ranges
+                var x = d3.scaleBand()
+                          .range([0, width])
+                          .padding(0.1);
+                var y = d3.scaleLinear()
+                          .range([height, 0]);
+                document.getElementById('bar').innerHTML = '';
+                var svg = d3.select("#bar").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                    .attr("transform",
+                          "translate(" + margin.left + "," + margin.top + ")");
+
+                  // get the data
+                  data = d3.entries(data);
+                  // format the data
+
+                  // Scale the range of the data in the domains
+                  x.domain(data.map(function(d) { return d.key; }));
+                  y.domain([0, d3.max(data, function(d) { return d.value; })]);
+                  console.log(x(1995));
+                  // append the rectangles for the bar chart
+                  svg.selectAll(".bar")
+                      .data(data)
+                    .enter().append("rect")
+                      .attr("class", "bar")
+                      .attr("x", function(d) { console.log(x(d.key));return x(d.key); })
+                      .attr("width", x.bandwidth())
+                      .attr("y", function(d) { return y(d.value); })
+                      .attr("height", function(d) { return height - y(d.value); });
+
+                      // add the x Axis
+                      svg.append("g")
+                          .attr("transform", "translate(0," + height + ")")
+                          .call(d3.axisBottom(x));
+
+                      // add the y Axis
+                      svg.append("g")
+                          .call(d3.axisLeft(y));
+              }
+            });
+          }
         function myFunction() {
             // Declare variables
             var input, filter, ul, li, a, i;
@@ -168,10 +210,7 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="../vendor/raphael/raphael.min.js"></script>
-    <script src="../vendor/morrisjs/morris.min.js"></script>
-    <script src="../data/morris-data.js"></script>
+
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
