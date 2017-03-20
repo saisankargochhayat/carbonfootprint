@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Carbon Emission Per Capita</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Per Capita Carbon Emissions Data By Country</a>
+                <a class="navbar-brand" href="#">Per Capita Carbon Emissions Data By Country</a>
             </div>
 
 
@@ -97,17 +97,19 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" >
                             <i class="fa fa-bar-chart-o fa-fw"></i>
-                            carbon info
+                            Carbon dioxide emissions (CO2), metric tons of CO2 per capita (CDIAC)
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="bar">
 
                             </div>
-                        </div>
+
                         <!-- /.panel-body -->
                     </div>
-
+                  </div>
+                  <div class="center-block"><a href="https://mdgs.un.org/unsd/mdg/SeriesDetail.aspx?srid=751" class="btn btn-success pull-right">Data Source</a>
+                  </div>
 
                 <!-- /.col-lg-8 -->
 
@@ -180,7 +182,7 @@
                       // add the y Axis
                       svg.append("g")
                           .call(d3.axisLeft(y));
-                  $('#country_name').html(country)
+                      $('#country_name').html(country)
               }
             });
 
