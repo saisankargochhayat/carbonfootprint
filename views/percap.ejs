@@ -50,7 +50,7 @@
                 </button>
                 <a class="navbar-brand" href="index.html">Per Capita Carbon Emissions Data By Country</a>
             </div>
-           
+
 
             <div style="overflow-y:auto;height:100vh;" class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -66,13 +66,13 @@
                             </div>
                             <!-- /input-group -->
                         </li>
-                        <% for (var i=0;i<json.length;i++) { %>
+                        <% for (var i=0;i<data.json.length;i++) { %>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i><%= json[i].Country %></a>
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i><%= data.json[i].Country %></a>
                         </li>
                         <% } %>
-                        
-                        
+
+
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -88,7 +88,7 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            
+
             <!-- /.row -->
             <div class="row">
                 <div class="col">
@@ -121,15 +121,15 @@
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                    
-                   
+
+
                 <!-- /.col-lg-8 -->
-                
-                   
+
+
                         <!-- /.panel-heading -->
-                       
+
                         <!-- /.panel-body -->
-                        
+
                         <!-- /.panel-footer -->
                     </div>
                     <!-- /.panel .chat-panel -->
