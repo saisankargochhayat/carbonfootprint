@@ -20,9 +20,6 @@
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -72,7 +69,7 @@
                             <!-- /input-group -->
                         </li>
                         <% for (var i=0;i<data.json.length;i++) { %>
-                        <li onclick = "load_country_data(<%=i%>)">
+                        <li onclick = "load_country_data(<%=i%>,'<%= data.json[i].Country %>')">
                             <a href="#"><i class="fa fa-dashboard fa-fw"></i><%= data.json[i].Country %></a>
                         </li>
                         <% } %>
@@ -87,8 +84,8 @@
 
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                <div class="col-lg-12" >
+                    <h1 class="page-header" id='country_name'></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -98,9 +95,9 @@
             <div class="row">
                 <div class="col">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-
+                        <div class="panel-heading" >
+                            <i class="fa fa-bar-chart-o fa-fw"></i>
+                            carbon info
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -135,7 +132,7 @@
     <!-- jQuery -->
     <script src="//d3js.org/d3.v4.min.js"></script>
     <script>
-          function load_country_data(countryid){
+          function load_country_data(countryid,country){
             $.get({
               url : '/percap/get_country/'+countryid,
               method : 'get',
@@ -165,13 +162,12 @@
                   // Scale the range of the data in the domains
                   x.domain(data.map(function(d) { return d.key; }));
                   y.domain([0, d3.max(data, function(d) { return d.value; })]);
-                  console.log(x(1995));
                   // append the rectangles for the bar chart
                   svg.selectAll(".bar")
                       .data(data)
                     .enter().append("rect")
                       .attr("class", "bar")
-                      .attr("x", function(d) { console.log(x(d.key));return x(d.key); })
+                      .attr("x", function(d) { return x(d.key); })
                       .attr("width", x.bandwidth())
                       .attr("y", function(d) { return y(d.value); })
                       .attr("height", function(d) { return height - y(d.value); });
@@ -184,8 +180,10 @@
                       // add the y Axis
                       svg.append("g")
                           .call(d3.axisLeft(y));
+                  $('#country_name').html(country)
               }
             });
+
           }
         function myFunction() {
             // Declare variables
@@ -214,7 +212,12 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
+    <!-- Loads the first country on initial run -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        load_country_data(0,'Afghanistan');
+      })
+    </script>
 </body>
 
 </html>
